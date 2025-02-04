@@ -12,7 +12,7 @@ function setup() {
   red.position(5, 5);
   red.size(50, 50);
   red.style('background-color', 'rgb(234, 65, 44)');
-  red.style('border', 'none');
+  red.style('border', '2px solid white');
   red.mousePressed(() => color = 'rgb(234, 65, 44)');
 
   //orange
@@ -20,7 +20,7 @@ function setup() {
   orange.position(5, 60);
   orange.size(50, 50);
   orange.style('background-color', 'rgb(239, 134, 52)');
-  orange.style('border', 'none');
+  orange.style('border', '2px solid white');
   orange.mousePressed(() => color = 'rgb(239, 134, 52)');
   
 
@@ -29,7 +29,7 @@ function setup() {
   yellow.position(5, 115);
   yellow.size(50, 50);
   yellow.style('background-color', 'rgb(255, 248, 75)');
-  yellow.style('border', 'none');
+  yellow.style('border', '2px solid white');
   yellow.mousePressed(() => color = 'rgb(255, 248, 75)');
 
   //green
@@ -37,7 +37,7 @@ function setup() {
   green.position(5, 170);
   green.size(50, 50);
   green.style('background-color', 'rgb(119,243,59)');
-  green.style('border', 'none');
+  green.style('border', '2px solid white');
   green.mousePressed(() => color = 'rgb(119,243,59)');
 
   //cyan
@@ -45,7 +45,7 @@ function setup() {
   cyan.position(5, 225);
   cyan.size(50, 50);
   cyan.style('background-color', 'rgb(116,249,252)');
-  cyan.style('border', 'none');
+  cyan.style('border', '2px solid white');
   cyan.mousePressed(() => color = 'rgb(116,249,252)');
 
   //blue
@@ -53,7 +53,7 @@ function setup() {
   blue.position(5, 280);
   blue.size(50, 50);
   blue.style('background-color', 'rgb(0,67,247)');
-  blue.style('border', 'none');
+  blue.style('border', '2px solid white');
   blue.mousePressed(() => color = 'rgb(0,67,247)');
 
   //magenta
@@ -61,7 +61,7 @@ function setup() {
   magenta.position(5, 335);
   magenta.size(50, 50);
   magenta.style('background-color', 'rgb(255,0,246)');
-  magenta.style('border', 'none');
+  magenta.style('border', '2px solid white');
   magenta.mousePressed(() => color = 'rgb(255,0,246)');
 
   //brown
@@ -69,23 +69,23 @@ function setup() {
   brown.position(5, 390);
   brown.size(50, 50);
   brown.style('background-color', 'rgb(118,67,20)');
-  brown.style('border', 'none');
+  brown.style('border', '2px solid white');
   brown.mousePressed(() => color = 'rgb(118,67,20)');
 
   //white
   let white = createButton('');
   white.position(5, 445);
   white.size(50, 50);
-  white.style('background-color', 'rgb(255, 255, 255)');
-  white.style('border', 'none');
-  white.mousePressed(() => color = 'rgb(255, 255, 255)');
+  white.style('background-color', 'rgb(240, 240, 240)');
+  white.style('border', '2px solid white');
+  white.mousePressed(() => color = 'rgb(240, 240, 240)');
 
   //black
   let black = createButton('');
   black.position(5, 500);
   black.size(50, 50);
   black.style('background-color', 'rgb(0, 0, 0)');
-  black.style('border', 'none');
+  black.style('border', '2px solid white');
   black.mousePressed(() => color = 'rgb(0, 0, 0)');
   //#endregion
 
