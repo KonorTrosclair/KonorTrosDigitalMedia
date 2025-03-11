@@ -1,4 +1,4 @@
-let propeller, propellerTremolo, noise, noiseFilter, panner, reverb, panValues, vol, volValues, freqValues;
+let propeller, propellerTremolo, noise, noiseFilter, panner, reverb, panValues, vol, volValues, freqValues, lfo, noiseVolValues;
 
 let plane;
 
@@ -25,6 +25,7 @@ function setup() {
   panValues = new Float32Array([-1, 0.5, 0, 0.5, 1]);
   volValues = new Float32Array([-12, 6, 8, 0, -24]);
   freqValues = new Float32Array([500, 1000, 1500, 1000, 1000]);
+  noiseVolValues = new Float32Array([-12, -6, -4, -6, -12]);
 
   panner = new Tone.Panner(0).toDestination();
 
@@ -36,7 +37,7 @@ function setup() {
       type: "sawtooth" 
     },
     envelope: { 
-      attack: 0.1, 
+      attack: 0.01, 
       decay: 0.3, 
       sustain: 0.5, 
       release: 0.5 
@@ -45,10 +46,23 @@ function setup() {
 
   propellerTremolo = new Tone.Tremolo(10, 0.8).start();
 
+  noise = new Tone.Noise("pink").start();
+  noise.volume.value = -Infinity;
+
+  lfo = new Tone.LFO(10, 600, 800).start();
+  
+
   noiseFilter = new Tone.Filter(500, "lowpass");
+
+
 
   propeller.connect(propellerTremolo);
   propellerTremolo.connect(noiseFilter);
+
+  noise.connect(noiseFilter);
+
+  lfo.connect(noiseFilter.frequency);
+
   noiseFilter.connect(vol);
   vol.connect(panner);
 }
@@ -91,6 +105,7 @@ function mouseClicked() {
 
   panner.pan.setValueCurveAtTime(panValues, Tone.now(), 5);
   vol.volume.setValueCurveAtTime(volValues, Tone.now(), 5);
+  noise.volume.setValueCurveAtTime(noiseVolValues, Tone.now(), 5);
 
   noiseFilter.frequency.setValueCurveAtTime(freqValues, Tone.now(), 5);
 
