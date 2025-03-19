@@ -213,22 +213,18 @@ function draw() {
 function beginGameCountDown() {
   let currentCountDownTime = millis();
 
-  // Reset prevRestartTimer only when countdown starts
   if (prevRestartTimer === 0) {
     prevRestartTimer = currentCountDownTime;
   }
 
   let remainingTime = countDownTimer - Math.floor((currentCountDownTime - prevRestartTimer) / 1000);
 
-  // Ensure that the countdown is active and the game isn't over
   if (countDownActive && !gameOver) {
-    // Check if a note exists for this countdown second
     let note = countDownNotes[remainingTime];
 
-    // Play note only once per second
     if (note && remainingTime !== activeNum) {
-      countDownSynth.triggerRelease(); // Stop the previous note
-      activeNum = remainingTime;  // Update active number to avoid re-triggering
+      countDownSynth.triggerRelease(); 
+      activeNum = remainingTime; 
       if (activeNum == 1) {
         countDownSynth.triggerAttack(note, "+0.3");
       } else {
@@ -242,10 +238,10 @@ function beginGameCountDown() {
     text("Game Starting in: " + remainingTime, windowWidth / 2 - 200, windowHeight / 2.5);
   }
 
-  // Stop countdown after 3 seconds
+ 
   if (remainingTime <= 0) {
     countDownActive = false;
-    prevRestartTimer = 0; // Reset for next time
+    prevRestartTimer = 0;
     activeNum = null;
   }
 }
