@@ -49,7 +49,7 @@ function setup() {
 
   lastSpawnTime = millis() - spawnRate;
 
-  // countdown synth
+
   createCanvas(windowWidth, windowHeight);
   filt = new Tone.Filter(1000, "peaking").toDestination();
 
@@ -68,13 +68,13 @@ function setup() {
   });
 
 
-// Background Music Setup
+
 Tone.Transport.timeSignature = [2, 4];
-Tone.Transport.bpm.value = 80;  // Fast tempo for energetic gameplay
+Tone.Transport.bpm.value = 80;  
 
 startMusic = new Tone.PolySynth(Tone.Synth).toDestination();
 
-// Define the sequence with variations over time
+
 startPart = new Tone.Part(((time, value) => {
   startMusic.triggerAttackRelease(value.note, value.dur, time);
 }), [
@@ -97,7 +97,7 @@ startPart = new Tone.Part(((time, value) => {
 
 backGroundMusic = new Tone.PolySynth(Tone.Synth).toDestination();
 
-// Define the sequence with variations over time
+
 part1 = new Tone.Part(((time, value) => {
   backGroundMusic.triggerAttackRelease(value.note, value.dur, time);
 }), [
@@ -120,10 +120,10 @@ part1 = new Tone.Part(((time, value) => {
   {time: "3:2", note: ["A3", "B4"], dur: "16n"}
 ]).start();
 
-// Add percussive layer or effects with more variation
+
 percussion = new Tone.MembraneSynth().toDestination();
 percPart = new Tone.Part(((time) => {
-  percussion.triggerAttackRelease("C2", "8n", time); // Add percussive hit at varied intervals
+  percussion.triggerAttackRelease("C2", "8n", time); 
 }), [
   {time: "0:1", note: "C2"},
   {time: "0:1.5", note: "C2"},
@@ -336,7 +336,7 @@ function endScreen() {
   
 }
 
-//spawns an ant
+
 function spawnAnt() {
   let newAnt = new Bug(random(width - 64), random(height - 64));
     addAntAnimations(newAnt);
@@ -352,7 +352,6 @@ function mousePressed() {
       spawnRate = 1000 - (score * 10);
       sounds.player("squish").start();
 
-      // Mark the ant as squished so it doesn't increase score again
       ants[i].isSquishedAlready = true;
 
       console.log(ants[i].currentAnimation);
