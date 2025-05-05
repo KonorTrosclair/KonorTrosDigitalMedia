@@ -20,7 +20,7 @@ function connect() {
         if (port.opened()) {
           connected = true;
           connectButton.hide();
-          startButton.show();
+          //startButton.show();
           clearInterval(checkIfOpened); // stop checking once connected
         }
       }, 100);

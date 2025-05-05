@@ -16,7 +16,7 @@ function setup() {
   setupGameplayMusic();
 
   setupConnectButton();
-  setupStartButton();
+  //setupStartButton();
 
   displayPlayer();
   displayBoss();
@@ -30,13 +30,15 @@ function setup() {
   nextBossSpawnTime = millis() + bossAppearMinInterval + random(5000, 15000); // first random spawn delay
 }
 
+isEndScreen = false;
+
 let playerSpawned = false;
 let prevButtonState = "0";
 let buttonStatus = " ";
 let joyStickStatusX = " ";
 let joyStickStatusY = " ";
 
-let spawnRate = 1000; //default spawnrate (to be decreased when score increases)
+let spawnRate = 3000; //default spawnrate (to be decreased when score increases)
 let lastSpawnTime = 0; //keep track of the last spawn Time
 
 let bossSpawnRate = 5000;
@@ -50,6 +52,10 @@ let bossSpawnTime = 0;
 
 let playerFoodRate = 1000;
 let lastPlayerFoodTick = 0;
+
+let timer = 0;
+let timerInterval = 1000;
+let lastTimerUpdate = 0;
 
 function draw() {
   background(220); // Optional background color
@@ -82,7 +88,16 @@ function draw() {
       scrollBackground(); // Call to scroll background
 
       let currentRate = millis();
-      let currentFootTick = millis();
+      let currentFoodTick = millis();
+      let currentTimer = millis();
+      if (currentTimer - lastTimerUpdate >= timerInterval) {
+        timer++;
+        lastTimerUpdate = currentTimer;
+      }
+      textSize(20);
+      fill(0);
+      textAlign(LEFT);
+      text("Time: " + timer, 10, 30);
 
       // spawn 5 ants periodicly based on current spawnrate
       if (currentRate - lastSpawnTime >= spawnRate) {
@@ -96,16 +111,18 @@ function draw() {
       }
 
       if(buttonStatus !== prevButtonState) {
-        // console.log("buttopn State: " + buttonStatus);
+        console.log("buttopn State: " + buttonStatus);
         if(buttonStatus === "0" ) {
           setTimeout(() => {
             player.arduinoInput(buttonStatus);
           }, 500);
         } else if(buttonStatus === "1") {
           player.arduinoInput(buttonStatus);
+          //buttonStatus = "0";
         }
-        
+        console.log("button State: " + buttonStatus);
         prevButtonState = buttonStatus;
+        console.log("prevButtonState: " + prevButtonState);
       }
       
       player.draw();
@@ -132,9 +149,49 @@ function draw() {
       if (bossSpawned) {
         boss.draw();
       }
+
+      if(playerFood > 0) {
+        if(currentFoodTick - lastPlayerFoodTick >= playerFoodRate) {
+          playerFood = playerFood - 1;
+          port.write("Food: " + playerFood + "\n");
+          lastPlayerFoodTick = currentFoodTick;
+        } 
+      }
+
+      console.log("Food: " + playerFood);
+      
       drawBossHealthBar();  
+
+      if(bossHealth <= 0 || playerFood <= 0) {
+        isEndScreen = true;
+        isGameStarted = false;
+        
+        
+      }
+
     } else {
-      displayBackground();
+      if(isEndScreen) {
+        enemies = [];
+        bossSpawned = false;
+        part1.stop();
+        part2.stop();
+        musicStarted = false;
+        timer = 0;
+        endScreen();
+        if(buttonStatus === "1") {
+          isEndScreen = false;
+          buttonStatus = "0";
+        }
+      } else {
+        displayBackground();
+        displayTitleScreen();
+        playerFood = 100;
+        bossHealth = 100;
+        if(buttonStatus === "1") {
+          isGameStarted = true;
+        }
+      }
+      
     }
     //console.log(buttonStatus);
     //console.log("buttonStatus: " + buttonStatus + " prevButtonState: " + prevButtonState);

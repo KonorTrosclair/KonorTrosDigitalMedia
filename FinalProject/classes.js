@@ -13,8 +13,8 @@ let bossHealth = 100;
 //#region base functions
 function preLoadSprites() {
     worm = loadImage("media/sprites/worm2.5x.png");
-    bluefish = loadImage("media/sprites/bluefish2.5x.png");
-    tigerfish = loadImage("media/sprites/tigerfish.png");
+    bluefish = loadImage("media/sprites/blueFish2.5x.png");
+    tigerfish = loadImage("media/sprites/tigerFish2.5x.png");
     playerCrayfish = loadImage("media/player/crawfishPlayer2.5x.png");
     monsterFish = loadImage("media/sprites/monsterFish2.5x.png");
 }
@@ -27,6 +27,12 @@ function addEnemyAnimations(enemy, number) {
     } else if (number == 1) {
         enemy.addAnimation("blueRight", new SpriteAnimation(bluefish, 0, 0, 2, 80, 80));
         enemy.addAnimation("blueLeft", new SpriteAnimation(bluefish, 0, 0, 2, 80, 80));
+    } else if (number == 2) {
+        enemy.addAnimation("blueRightFast", new SpriteAnimation(bluefish, 0, 0, 2, 80, 80));
+    } else if (number == 3) {
+        enemy.addAnimation("tigerFishDown", new SpriteAnimation(tigerfish, 0, 0, 2, 80, 80));
+    } else if (number == 4) {
+        enemy.addAnimation("tigerFishUp", new SpriteAnimation(tigerfish, 0, 0, 2, 80, 80));
     }
 }
 
@@ -43,12 +49,13 @@ function addBossAnimations() {
 
 function spawnEnemy() {
     let wormHeight = Math.floor(Math.random() * 540) + 540;
-    let blueHeight = Math.floor(Math.random() * 1080);
+    let blueHeight = Math.floor(Math.random() * windowHeight) + 100;
+    let tigerX = Math.floor(Math.random() * windowWidth);
     //console.log(height);
 
     let newEnemy;
 
-    let randomNumber = Math.floor(Math.random() * 2);
+    let randomNumber = Math.floor(Math.random() * 5);
 
     if (randomNumber == 0) {
         newEnemy = new Enemy(windowWidth, wormHeight);
@@ -60,7 +67,22 @@ function spawnEnemy() {
         addEnemyAnimations(newEnemy, randomNumber);
         newEnemy.spawnEnemy("bluefish");
         enemies.push(newEnemy);
-    }
+    } else if (randomNumber == 2) {
+        newEnemy = new Enemy(-128, blueHeight)
+        addEnemyAnimations(newEnemy, randomNumber);
+        newEnemy.spawnEnemy("bluefishFast");
+        enemies.push(newEnemy);
+    } else if (randomNumber == 3) {
+        newEnemy = new Enemy(tigerX, -128)
+        addEnemyAnimations(newEnemy, randomNumber);
+        newEnemy.spawnEnemy("tigerFishDown");
+        enemies.push(newEnemy);
+    } else if (randomNumber == 4) {
+        newEnemy = new Enemy(tigerX, windowHeight + 128)
+        addEnemyAnimations(newEnemy, randomNumber);
+        newEnemy.spawnEnemy("tigerFishUp");
+        enemies.push(newEnemy);
+  }
   }
 
 function displayPlayer() {
@@ -106,6 +128,16 @@ function displayBoss() {
             break;
           case "blueRight":
             this.x -=1.5;
+            break;
+          case "blueRightFast":
+            this.x += 3;
+            break;
+          case "tigerFishDown":
+            this.y += 2;
+            break;
+          case "tigerFishUp":
+            this.y -=2;
+            break;
         }
         push();
         translate(this.x, this.y);
@@ -134,6 +166,14 @@ function displayBoss() {
                 this.animations["blueRight"].flipped = true;
                 //console.log(this.animations["blueRight"].flipped ? "true" : "false");
             }
+        } else if (enemyType === "bluefishFast") {
+          this.currentAnimation = "blueRightFast";
+          this.animations["blueRightFast"].flipped = true;
+        } else if (enemyType === "tigerFishDown") {
+          this.currentAnimation = "tigerFishDown";
+          this.animations["tigerFishDown"].goingDown = true;
+        } else if (enemyType === "tigerFishUp") {
+          this.currentAnimation = "tigerFishUp";
         }
         
       }
@@ -157,7 +197,9 @@ function displayBoss() {
     draw() {
       push();
       let s = (this.flipped) ? -1 : 1;
+      let t = (this.goingDown) ? -1 : 1;
       scale(s, 1);
+      scale(1, t);
   
       //ensure the origins are in the apropriate location
     //   if (this.flipped) {
@@ -186,6 +228,8 @@ function displayBoss() {
   let lastAnimTime = 0;
   let logAngle = 0;
   let alreadyMoved = false;
+
+  let lostFoodTest = 0;
   class Player {
     constructor(x, y) {
       this.x = x;
@@ -316,37 +360,59 @@ function displayBoss() {
     }
 
     arduinoInput(input) {
-      if(this.currentAnimation === "crayfishRight") {
+      if (this.currentAnimation === "crayfishRight") {
         if (input === "1") {
           this.currentAnimation = "crayfishAttack";
-          
+    
+          // Delay animation reset
           setTimeout(() => {
-            // Only reset if still in attack state
             if (this.currentAnimation === "crayfishAttack") {
               this.currentAnimation = "crayfishRight";
             }
           }, 500);
-  
-          for(let enemy of enemies) {
-            if(enemy.x >= this.x && enemy.x <= this.x + 160 && enemy.y >= this.y - 80 && enemy.y <= this.y + 80) {
-              enemies.splice(enemies.indexOf(enemy), 1);
-              playerFood += 10;
-              //port.write("Food: " + playerFood + "\n");
-            } else {
-              playerFood -= 5;
-              //port.write("Food: " + playerFood + "\n");
+    
+          let enemyHit = false;
+    
+          // Check if any enemy is hit
+          for (let i = enemies.length - 1; i >= 0; i--) {
+            const enemy = enemies[i];
+            if (
+              enemy.x >= this.x &&
+              enemy.x <= this.x + 160 &&
+              enemy.y >= this.y - 80 &&
+              enemy.y <= this.y + 80
+            ) {
+              enemies.splice(i, 1);
+              enemyHit = true;
             }
           }
-  
-          if(bossSpawned) {
-            if(boss.x >= this.x && boss.x <= this.x + 160) {
+    
+          // Update food once based on result
+          if (enemyHit) {
+            if (playerFood > 0) {
+              playerFood += 10;
+              port.write("Food: " + playerFood + "\n");
+            }
+          } else {
+            if (playerFood > 0) {
+              playerFood -= 5;
+              port.write("Food: " + playerFood + "\n");
+              console.log("Lost Food: " + (lostFoodTest += 5));
+            }
+          }
+    
+          // Boss damage stays
+          if (bossSpawned) {
+            if (boss.x >= this.x && boss.x <= this.x + 160) {
               bossHealth -= 5;
             }
           }
+    
+          buttonStatus = "0";
         }
       }
-      
     }
+    
 
     displayPlayer() {
       this.arduinoInput(0);
@@ -444,7 +510,7 @@ function displayBoss() {
             this.angle = 0;
 
             //this.animations["crayfishRight"].flipped = false;
-            console.log("crayfishAttack");
+            //console.log("crayfishAttack");
             break;
         }
         push();
