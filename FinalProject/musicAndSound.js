@@ -18,11 +18,11 @@ function preloadSoundFiles() {
 
 function setupGameplayMusic() {
   bassVibrato = new Tone.Vibrato({
-    frequency: 4, // 4Hz wobble
+    frequency: 4, 
     depth: 0.2
   });
   
-  // Add light chorus
+  
   lightChorus = new Tone.Chorus({
     frequency: 0.5,
     delayTime: 2.5,
@@ -31,7 +31,7 @@ function setupGameplayMusic() {
     wet: 0.3
   }).start();
   
-  // Short reverb
+  
   reverb = new Tone.Reverb({
     decay: 3,
     preDelay: 0.1,
@@ -40,7 +40,7 @@ function setupGameplayMusic() {
 
 
   gameMelody = new Tone.FMSynth({
-    harmonicity: 0.5, // Adds underwater texture
+    harmonicity: 0.5, 
     modulationIndex: 10,
     oscillator: { type: "sine" },
     modulation: { type: "triangle" },
@@ -58,7 +58,6 @@ function setupGameplayMusic() {
     }
   });
   
-  // Underwater bass synth (smooth + pulsing)
   gameChorus = new Tone.Synth({
     oscillator: { type: "sine" },
     envelope: {
@@ -74,12 +73,12 @@ function setupGameplayMusic() {
   titleChords = new Tone.PolySynth(Tone.Synth).toDestination();
   titleMelody = new Tone.PolySynth(Tone.Synth).toDestination();
 
-  // Connect background music
+  
   gameMelody.chain(lightChorus, reverb);
 
   //gameMelody.modulationIndex.rampTo(10, 4);
   
-  // Connect bass through vibrato -> chorus -> reverb
+  
   gameChorus.chain(bassVibrato, lightChorus, reverb);
 }
 
@@ -88,7 +87,7 @@ function craydadsRetributionTheme() {
   Tone.Transport.bpm.value = 100;
 
 
-  // --- Main Loop (The Chase Continues) ---
+  
   part1 = new Tone.Part((time, value) => {
     value.note.forEach((n, i) => {
       gameMelody.triggerAttackRelease(n, "16n", time + Tone.Time("16n") * i);

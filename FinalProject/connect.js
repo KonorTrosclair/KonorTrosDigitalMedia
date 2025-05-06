@@ -1,8 +1,8 @@
 let connectButton, port;
 let connected = false;
 
-let topLeftColor // Start color (blueish)
-let bottomRightColor // End color (black)
+let topLeftColor 
+let bottomRightColor 
 
 function setupConnectButton() {
     connectButton = createButton('Connect');
@@ -14,14 +14,12 @@ function setupConnectButton() {
 
 function connect() {
       port.open('Arduino', 9600);
-  
-      // Check every 100ms to see if the port has opened
+
       const checkIfOpened = setInterval(() => {
         if (port.opened()) {
           connected = true;
           connectButton.hide();
-          //startButton.show();
-          clearInterval(checkIfOpened); // stop checking once connected
+          clearInterval(checkIfOpened); 
         }
       }, 100);
 }

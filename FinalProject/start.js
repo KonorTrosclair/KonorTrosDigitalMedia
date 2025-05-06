@@ -1,5 +1,5 @@
-//let stbg1, stbg2, stbg3, stbg4;
-let startLastCycleTime = 0; // The last time the image changed
+
+let startLastCycleTime = 0;
 let stCurrentImage = 0;
 
 let isGameStarted = false;
@@ -17,15 +17,15 @@ let isGameStarted = false;
 // }
 
 function displayBackground() {
-    // Choose the current image based on the currentImage index
+
     let stbg = [bg1, bg2, bg3, bg4][stCurrentImage];
 
     image(stbg, 0, -540, 3840, 1620);
 
     if (millis() - startLastCycleTime > 250) {
-        startLastCycleTime = millis(); // Update the time
-        // Change to the next image (cycle through 0-3)
-        stCurrentImage = (stCurrentImage + 1) % 4; // Cycles through 0 to 3
+        startLastCycleTime = millis(); 
+
+        stCurrentImage = (stCurrentImage + 1) % 4; 
       }
     
 }

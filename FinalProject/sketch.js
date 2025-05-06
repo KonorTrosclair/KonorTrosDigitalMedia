@@ -21,9 +21,9 @@ function setup() {
   topColor = color(65, 32, 113);
   bottomColor = color(250, 167, 122);
 
-  imageWidth = bg1.width; // Set the width of the image for looping logic
+  imageWidth = bg1.width; 
 
-  nextBossSpawnTime = millis() + bossAppearMinInterval + random(5000, 15000); // first random spawn delay
+  nextBossSpawnTime = millis() + bossAppearMinInterval + random(5000, 15000);
 }
 
 isEndScreen = false;
