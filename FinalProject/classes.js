@@ -53,40 +53,40 @@ function spawnEnemy() {
     let tigerX = Math.floor(Math.random() * windowWidth);
     //console.log(height);
 
-    let newEnemy;
+    let newWorm, newBlueFish, newBlueFishFast, newTigerFish;
 
     let randomNumber = Math.floor(Math.random() * 5);
 
     if (randomNumber == 0) {
-        newEnemy = new Enemy(windowWidth, wormHeight);
-        addEnemyAnimations(newEnemy, randomNumber);
-        newEnemy.spawnEnemy("worm");
-        enemies.push(newEnemy);
+        newWorm = new Enemy(windowWidth, wormHeight);
+        addEnemyAnimations(newWorm, randomNumber);
+        newWorm.spawnEnemy("worm");
+        enemies.push(newWorm);
     } else if (randomNumber == 1) {
-        newEnemy = new Enemy(windowWidth + 128, blueHeight)
-        addEnemyAnimations(newEnemy, randomNumber);
-        newEnemy.spawnEnemy("bluefish");
-        enemies.push(newEnemy);
+        newBlueFish = new Enemy(windowWidth + 128, blueHeight)
+        addEnemyAnimations(newBlueFish, randomNumber);
+        newBlueFish.spawnEnemy("bluefish");
+        enemies.push(newBlueFish);
     } else if (randomNumber == 2) {
-        newEnemy = new Enemy(-128, blueHeight)
-        addEnemyAnimations(newEnemy, randomNumber);
-        newEnemy.spawnEnemy("bluefishFast");
-        enemies.push(newEnemy);
+        newBlueFishFast = new Enemy(-128, blueHeight)
+        addEnemyAnimations(newBlueFishFast, randomNumber);
+        newBlueFishFast.spawnEnemy("bluefishFast");
+        enemies.push(newBlueFishFast);
     } else if (randomNumber == 3) {
-        newEnemy = new Enemy(tigerX, -128)
-        addEnemyAnimations(newEnemy, randomNumber);
-        newEnemy.spawnEnemy("tigerFishDown");
-        enemies.push(newEnemy);
+        newTigerFish = new Enemy(tigerX, -128)
+        addEnemyAnimations(newTigerFish, randomNumber);
+        newTigerFish.spawnEnemy("tigerFishDown");
+        enemies.push(newTigerFish);
     } else if (randomNumber == 4) {
-        newEnemy = new Enemy(tigerX, windowHeight + 128)
-        addEnemyAnimations(newEnemy, randomNumber);
-        newEnemy.spawnEnemy("tigerFishUp");
-        enemies.push(newEnemy);
+        newTigerFish = new Enemy(tigerX, windowHeight + 128)
+        addEnemyAnimations(newTigerFish, randomNumber);
+        newTigerFish.spawnEnemy("tigerFishUp");
+        enemies.push(newTigerFish);
   }
   }
 
 function displayPlayer() {
-  player = new Player(300, 300);
+  player = new Player(170, windowHeight / 2);
   addPlayerAnimations();
   player.displayPlayer();
   
@@ -114,7 +114,6 @@ function displayBoss() {
   
     draw() {
       let animation = this.animations[this.currentAnimation];
-      //detect what animation to use and make the ant move at a speed proportional to the score
       if (animation) {
         switch (this.currentAnimation) {
           case "wormLeft":
@@ -133,10 +132,10 @@ function displayBoss() {
             this.x += 3;
             break;
           case "tigerFishDown":
-            this.y += 2;
+            this.y += 8;
             break;
           case "tigerFishUp":
-            this.y -=2;
+            this.y -= 8;
             break;
         }
         push();
@@ -201,7 +200,6 @@ function displayBoss() {
       scale(s, 1);
       scale(1, t);
   
-      //ensure the origins are in the apropriate location
     //   if (this.flipped) {
     //     translate(-width, 0);
     //     //console.log("flipped")
@@ -255,33 +253,32 @@ function displayBoss() {
       let dy = centerY - joyY;
     
       if(this.currentAnimation === "crayfishRight") {
-        // Only update position if input is valid
         if(!bossSpawned) {
           if (!Number.isNaN(dx) && Math.abs(dx) > DEAD_ZONE) {
-            if(this.x > 160 && this.x < windowWidth - 160) {
+            if(this.x > 0 && this.x < windowWidth) {
               this.x += dx * SENSITIVITY;
-            } else if(this.x <= 160 && dx > 0) {
+            } else if(this.x <= 0 && dx > 0) {
               this.x += dx * SENSITIVITY;
-            } else if(this.x >= windowWidth - 160 && dx < 0) {
+            } else if(this.x >= windowWidth && dx < 0) {
               this.x += dx * SENSITIVITY;
             }
           }
         //console.log("x: " + this.x);
       
           if (!Number.isNaN(dy) && Math.abs(dy) > DEAD_ZONE) {
-            if(this.y > 160 && this.y < windowHeight - 160) {
+            if(this.y > 100 && this.y < windowHeight) {
               this.y += dy * SENSITIVITY;
-            } else if(this.y <= 160 && dy > 0) {
+            } else if(this.y <= 100 && dy > 0) {
               this.y += dy * SENSITIVITY;
-            } else if(this.y >= windowHeight - 160 && dy < 0) {
+            } else if(this.y >= windowHeight && dy < 0) {
               this.y += dy * SENSITIVITY;
             }
           }
         } else if(bossSpawned) {
           if (!Number.isNaN(dx) && Math.abs(dx) > DEAD_ZONE) {
-            if(this.x > 10 && this.x < boss.x - 120) {
+            if(this.x > 0 && this.x < boss.x - 120) {
               this.x += dx * SENSITIVITY;
-            } else if(this.x <= 160 && dx > 0) {
+            } else if(this.x <= 0 && dx > 0) {
               this.x += dx * SENSITIVITY;
             } else if(this.x >= boss.x - 120) {
               this.x = boss.x - 120;
@@ -299,11 +296,11 @@ function displayBoss() {
         //console.log("x: " + this.x);
       
           if (!Number.isNaN(dy) && Math.abs(dy) > DEAD_ZONE) {
-            if(this.y > 160 && this.y < windowHeight - 160) {
+            if(this.y > 100 && this.y < windowHeight) {
               this.y += dy * SENSITIVITY;
-            } else if(this.y <= 160 && dy > 0) {
+            } else if(this.y <= 100 && dy > 0) {
               this.y += dy * SENSITIVITY;
-            } else if(this.y >= windowHeight - 160 && dy < 0) {
+            } else if(this.y >= windowHeight && dy < 0) {
               this.y += dy * SENSITIVITY;
             }
           }
@@ -322,7 +319,6 @@ function displayBoss() {
 
 
       if(this.angle > PI/2 || this.angle < -PI/2) {
-        //flip the sprite
         this.animations["crayfishRight"].flipped = true;
       } else {
         this.animations["crayfishRight"].flipped = false;
@@ -331,7 +327,6 @@ function displayBoss() {
     
     draw() {
       let animation = this.animations[this.currentAnimation];
-      //detect what animation to use and make the ant move at a speed proportional to the score
       if (animation) {
         // let currentAnimTime = millis();
         // if (currentAnimTime - lastAnimTime >= attackAnimTime) {
@@ -344,10 +339,11 @@ function displayBoss() {
             this.angle = logAngle;
             break;
           case "crayfishAttack":
+            
             this.angle = 0;
 
             //this.animations["crayfishRight"].flipped = false;
-            console.log("crayfishAttack");
+            //console.log("crayfishAttack");
             break;
         }
         push();
@@ -363,8 +359,7 @@ function displayBoss() {
       if (this.currentAnimation === "crayfishRight") {
         if (input === "1") {
           this.currentAnimation = "crayfishAttack";
-    
-          // Delay animation reset
+          sounds.player("playerPinch").start();
           setTimeout(() => {
             if (this.currentAnimation === "crayfishAttack") {
               this.currentAnimation = "crayfishRight";
@@ -372,36 +367,53 @@ function displayBoss() {
           }, 500);
     
           let enemyHit = false;
+          let hitEnemyType = null;
     
-          // Check if any enemy is hit
           for (let i = enemies.length - 1; i >= 0; i--) {
-            const enemy = enemies[i];
-            if (
-              enemy.x >= this.x &&
-              enemy.x <= this.x + 160 &&
-              enemy.y >= this.y - 80 &&
-              enemy.y <= this.y + 80
-            ) {
+            let enemy = enemies[i];
+            if (enemy.x >= this.x && enemy.x <= this.x + 160 && enemy.y >= this.y - 80 && enemy.y <= this.y + 80) {
               enemies.splice(i, 1);
               enemyHit = true;
+              hitEnemyType = enemy.currentAnimation;
             }
           }
     
-          // Update food once based on result
           if (enemyHit) {
             if (playerFood > 0) {
               playerFood += 10;
+              switch(hitEnemyType) {
+                case "wormRight":
+                  score += 5 * scoreMultiplier;
+                  break;
+                case "wormLeft":
+                  score += 10 * scoreMultiplier;
+                  break;
+                case "blueRight":
+                  score += 15 * scoreMultiplier;
+                  break;
+                case "blueLeft":
+                  score += 20 * scoreMultiplier;
+                  break;
+                case "blueRightFast":
+                  score += 25 * scoreMultiplier;
+                  break;
+                case "tigerFishDown":
+                  score += 30 * scoreMultiplier;
+                  break;
+                case "tigerFishUp":
+                  score += 30 * scoreMultiplier;
+                  break;
+              }
               port.write("Food: " + playerFood + "\n");
             }
           } else {
             if (playerFood > 0) {
               playerFood -= 5;
               port.write("Food: " + playerFood + "\n");
-              console.log("Lost Food: " + (lostFoodTest += 5));
+              //console.log("Lost Food: " + (lostFoodTest += 5));
             }
           }
     
-          // Boss damage stays
           if (bossSpawned) {
             if (boss.x >= this.x && boss.x <= this.x + 160) {
               bossHealth -= 5;
@@ -432,7 +444,6 @@ function displayBoss() {
       this.flipped = false;
       this.goingUp = false;
       this.goingDown = false;
-      //this.slow = false;
       this.fps = framesPerSecond;
     }
   
@@ -441,7 +452,6 @@ function displayBoss() {
       let s = (this.flipped) ? -1 : 1;
       scale(1, s);
   
-      //ensure the origins are in the apropriate location
       // if (this.flipped) {
       //   //translate(-width, 0);
       //   console.log("flipped")
@@ -494,7 +504,6 @@ function displayBoss() {
     
     draw() {
       let animation = this.animations[this.currentAnimation];
-      //detect what animation to use and make the ant move at a speed proportional to the score
       if (animation) {
         // let currentAnimTime = millis();
         // if (currentAnimTime - lastAnimTime >= attackAnimTime) {
@@ -526,7 +535,6 @@ function displayBoss() {
         this.currentAnimation = "crayfishAttack";
         
         setTimeout(() => {
-          // Only reset if still in attack state
           if (this.currentAnimation === "crayfishAttack") {
             this.currentAnimation = "crayfishRight";
           }
@@ -555,14 +563,12 @@ function displayBoss() {
       this.flipped = false;
       this.goingUp = false;
       this.goingDown = false;
-      //this.slow = false;
       this.fps = framesPerSecond;
     }
   
     draw() {
       push();
       image(this.spriteSheet, 0, 0, this.width, this.height, this.u * this.width, this.v * this.height, this.width, this.height);
-      //scale(1, 1);
       this.frameCount++;
       if (this.frameCount % this.fps === 0) {
         //console.log("going to next frame");

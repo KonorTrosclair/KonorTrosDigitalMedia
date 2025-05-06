@@ -1,11 +1,7 @@
-let crayfishTest;
-
 function preload() {
   preLoadSprites()
-  
   preLoadBackground();
-  
-  crayfishTest = loadImage('media/sprites/crawfishPlayer.png');
+  preloadSoundFiles();
 }
 
 
@@ -38,27 +34,36 @@ let buttonStatus = " ";
 let joyStickStatusX = " ";
 let joyStickStatusY = " ";
 
-let spawnRate = 3000; //default spawnrate (to be decreased when score increases)
-let lastSpawnTime = 0; //keep track of the last spawn Time
+let spawnRate = 3000; 
+let lastSpawnTime = 0; 
 
 let bossSpawnRate = 5000;
 let lastBossSpawnTime = 0;
 let bossSpawned = false;
 
-let bossDisplayDuration = 5000; // 5 seconds on screen
-let bossAppearMinInterval = 5000; // Minimum 5 seconds between appearances
+let bossDisplayDuration = 5000;
+let bossAppearMinInterval = 5000; 
 let nextBossSpawnTime = 0;
 let bossSpawnTime = 0;
 
 let playerFoodRate = 1000;
 let lastPlayerFoodTick = 0;
 
+let screenChangeBuffer = false;
+let screenChangeBufferTimer = 3000;
+let screenChangeBufferTime = 0;
+let restartTimer = 3;
+
 let timer = 0;
 let timerInterval = 1000;
 let lastTimerUpdate = 0;
 
+let score = 0;
+let scoreMultiplier = 5;
+
+
 function draw() {
-  background(220); // Optional background color
+  background(220); 
 
   let input = port.readUntil("\n").trim();
   let tokens = input.split(" ");
@@ -82,24 +87,32 @@ function draw() {
   if(connected) {
     if (isGameStarted) {
       if(!musicStarted) {
+        part1Title.stop();
+        part2Title.stop();
+        titleMusicStarted = false;
         craydadsRetributionTheme();
         musicStarted = true;
       }
-      scrollBackground(); // Call to scroll background
-
+      scrollBackground(); 
       let currentRate = millis();
       let currentFoodTick = millis();
       let currentTimer = millis();
       if (currentTimer - lastTimerUpdate >= timerInterval) {
         timer++;
+        if(timer % 5 === 0) {
+          scoreMultiplier = scoreMultiplier / 1.25;
+        }
+
+        if(timer >= 60) {
+          score = score - 10;
+          if(score < 0) {
+            score = 0;
+          }
+        }
         lastTimerUpdate = currentTimer;
       }
-      textSize(20);
-      fill(0);
-      textAlign(LEFT);
-      text("Time: " + timer, 10, 30);
+      
 
-      // spawn 5 ants periodicly based on current spawnrate
       if (currentRate - lastSpawnTime >= spawnRate) {
         spawnEnemy();
         lastSpawnTime = currentRate;
@@ -111,18 +124,18 @@ function draw() {
       }
 
       if(buttonStatus !== prevButtonState) {
-        console.log("buttopn State: " + buttonStatus);
+        //console.log("buttopn State: " + buttonStatus);
         if(buttonStatus === "0" ) {
           setTimeout(() => {
             player.arduinoInput(buttonStatus);
           }, 500);
         } else if(buttonStatus === "1") {
           player.arduinoInput(buttonStatus);
-          //buttonStatus = "0";
+      
         }
-        console.log("button State: " + buttonStatus);
+        //console.log("button State: " + buttonStatus);
         prevButtonState = buttonStatus;
-        console.log("prevButtonState: " + prevButtonState);
+        //console.log("prevButtonState: " + prevButtonState);
       }
       
       player.draw();
@@ -130,22 +143,22 @@ function draw() {
 
       let now = millis();
 
-      // Spawn boss at a random time after at least 5 seconds
+      
       if (!bossSpawned && now >= nextBossSpawnTime) {
         bossSpawned = true;
+        sounds.player("monsterRoar").start();
         bossSpawnTime = now;
 
-        // Schedule next spawn at some point in the future (min 5s from now + random)
         nextBossSpawnTime = now + bossAppearMinInterval + random(5000, 15000);
       }
 
-      // Hide boss after 5 seconds
+      
       if (bossSpawned && now - bossSpawnTime >= bossDisplayDuration) {
         bossSpawned = false;
         alreadyMoved = false;
       }
 
-      // Draw the boss if it's currently spawned
+      
       if (bossSpawned) {
         boss.draw();
       }
@@ -158,39 +171,77 @@ function draw() {
         } 
       }
 
-      console.log("Food: " + playerFood);
+      //console.log("Food: " + playerFood);
       
-      drawBossHealthBar();  
+      drawBossHealthBar(); 
+      textSize(20);
+      fill(255);
+      textAlign(LEFT);
+      text("Score: " + Math.floor(score), 50, 50);
+      text("Time: " + timer, windowWidth - 100, 50); 
 
       if(bossHealth <= 0 || playerFood <= 0) {
         isEndScreen = true;
         isGameStarted = false;
-        
-        
+        bossSpawned = false;
+        enemies = [];
+        nextBossSpawnTime = millis() + bossAppearMinInterval + random(5000, 15000);
+        bossSpawnTime = 0;
       }
 
     } else {
       if(isEndScreen) {
-        enemies = [];
         bossSpawned = false;
         part1.stop();
         part2.stop();
         musicStarted = false;
-        timer = 0;
+
+        let currentScreenChangeBuffer = millis();
+        
+
+        if(restartTimer <= 0) {
+          screenChangeBuffer = true;
+        } else {
+          screenChangeBuffer = false;
+        }
+
+        if(currentScreenChangeBuffer - screenChangeBufferTime >= 1000 && restartTimer > 0) {
+          
+          
+          restartTimer--;
+          screenChangeBufferTime = currentScreenChangeBuffer;
+        }
+        
         endScreen();
-        if(buttonStatus === "1") {
+        if(buttonStatus === "1" && screenChangeBuffer === true) {
+          screenChangeBuffer = false;
+          screenChangeBufferTime = 0;
           isEndScreen = false;
           buttonStatus = "0";
+          score = 0;
         }
       } else {
         displayBackground();
         displayTitleScreen();
         playerFood = 100;
         bossHealth = 100;
+        player.x = 170;
+        player.y = windowHeight / 2;
+        player.angle = 0;
+        timer = 0;
+        isScoreMultiplied = false;
+        scoreMultiplier = 5;
+        restartTimer = 3;
         if(buttonStatus === "1") {
           isGameStarted = true;
         }
       }
+
+      if(titleMusicStarted === false) {
+        titleMusic();
+        titleMusicStarted = true;
+      }
+      
       
     }
     //console.log(buttonStatus);
