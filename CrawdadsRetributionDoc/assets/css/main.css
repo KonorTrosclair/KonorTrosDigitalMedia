@@ -1947,6 +1947,18 @@ input, select, textarea {
 			margin-right: 0.5em;
 		  }
 
+		  	.custom-bullets a,
+			.second-custom-bullets a {
+ 				color: inherit;       /* Makes the link take the text color of its parent */
+  				text-decoration: none; /* Optional: removes underline */
+			}
+
+			.custom-bullets a:hover,
+			.second-custom-bullets a:hover {
+  			color: #007acc; /* Optional: adds a hover color */
+  			text-decoration: underline;
+			}
+
 		
 
 /* Main */
