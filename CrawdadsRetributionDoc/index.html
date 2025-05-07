@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Big Picture by HTML5 UP</title>
+		<title>Crawdads Retribution</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -16,14 +16,15 @@
 
 		<!-- Header -->
 			<header id="header">
-				<h1>Big Picture</h1>
+				<h1>Crawdads Retribution</h1>
 				<nav>
 					<ul>
-						<li><a href="#intro">Intro</a></li>
-						<li><a href="#one">What I Do</a></li>
-						<li><a href="#two">Who I Am</a></li>
-						<li><a href="#work">My Work</a></li>
-						<li><a href="#contact">Contact</a></li>
+						<li><a href="#intro">Crawdads Retribution</a></li>
+						<li><a href="#one">Project Outline</a></li>
+						<li><a href="#two">Game Narative</a></li>
+						<li><a href="#Arduino-Circuitry">Arduino Circuitry</a></li>
+						<li><a href="#Future-Development">Future Development</a></li>
+						<li><a href="#Important-Links">Important Links</a></li>
 					</ul>
 				</nav>
 			</header>
@@ -32,10 +33,9 @@
 			<section id="intro" class="main style1 dark fullscreen">
 				<div class="content">
 					<header>
-						<h2>Hey.</h2>
+						<h2>Crawdads Retribution</h2>
 					</header>
-					<p>Welcome to <strong>Big Picture</strong> a responsive site template designed by <a href="https://html5up.net">HTML5 UP</a><br />
-					and released for free under the <a href="https://html5up.net/license">Creative Commons Attribution license</a>.</p>
+					<p>Welcome to my game</p>
 					<footer>
 						<a href="#one" class="button style2 down">More</a>
 					</footer>
@@ -46,11 +46,16 @@
 			<section id="one" class="main style2 right dark fullscreen">
 				<div class="content box style2">
 					<header>
-						<h2>What I Do</h2>
+						<h2>Project Outline</h2>
 					</header>
-					<p>Lorem ipsum dolor sit amet et sapien sed elementum egestas dolore condimentum.
-					Fusce blandit ultrices sapien, in accumsan orci rhoncus eu. Sed sodales venenatis arcu,
-					id varius justo euismod in. Curabitur egestas consectetur magna.</p>
+					<p>The goal of this project was to create a game using Arduino electronics that can interact with a website using P5.js for graphics and Tone.js for sound.
+						The arduino model that I used was the Arduino Uno in which I connected 3 LEDs, a button, and a joystick.
+						The game itself is a simple 2D game where the player controlls a crayfish using the joystick to move around and pressing the button to attack.
+						Variouse sprites and drawings are used to create the visuals of the game.
+						Using Tone.js I was able to create a simple soundtrack with two seperate audio loops.
+						One loop plays in both the Title/game over screen and another loop that plays during the gameplay.
+						There are also royalty free sound effects that play during the player attack and whenever the Monster Fish appears.
+					</p>
 				</div>
 				<a href="#two" class="button style2 down anchored">Next</a>
 			</section>
@@ -59,89 +64,127 @@
 			<section id="two" class="main style2 left dark fullscreen">
 				<div class="content box style2">
 					<header>
-						<h2>Who I Am</h2>
+						<h2>Game Narative</h2>
 					</header>
-					<p>Lorem ipsum dolor sit amet et sapien sed elementum egestas dolore condimentum.
-					Fusce blandit ultrices sapien, in accumsan orci rhoncus eu. Sed sodales venenatis arcu,
-					id varius justo euismod in. Curabitur egestas consectetur magna.</p>
+					<p>In Crawdads Retribution you play as a crayfish whose home was just destroyed by a monster fish. 
+						You must enact vengeance on the monster fish, but you can’t do it on an empty stomach.
+						Your goal is to eat smaller sea creatures such as worms and smaller fish to keep your strength up for the arriving battle. 
+						The monster fish will make various appearances on the right side of the screen and it is up to the player to use the crayfish’s pinching attack to damage him. 
+						The player is also tasked with keeping the hunger of the crayfish up or it will be game over.
+					</p>
 				</div>
-				<a href="#work" class="button style2 down anchored">Next</a>
+				<a href="#Arduino-Circuitry" class="button style2 down anchored">Next</a>
 			</section>
 
-		<!-- Work -->
-			<section id="work" class="main style3 primary">
+		<!-- Arduino-Circuitry -->
+			<section id="Arduino-Circuitry" class="main style3 primary">
 				<div class="content">
 					<header>
-						<h2>My Work</h2>
-						<p>Lorem ipsum dolor sit amet et sapien sed elementum egestas dolore condimentum.
-						Fusce blandit ultrices sapien, in accumsan orci rhoncus eu. Sed sodales venenatis
-						arcu, id varius justo euismod in. Curabitur egestas consectetur magna vitae.</p>
+						<h2>Arduino Circuitry</h2>
+						<p>The arduino side of the project consists of 3 LED (green, yellow, and red) designated for the hunger status of the player.
+							The player will use both the button and the joystick to control the crayfish.
+							the joystick will be used to move the crayfish while the button will be used for the pinching attack.
+						</p>
 					</header>
 
 					<!-- Gallery  -->
 						<div class="gallery">
 							<article class="from-left">
-								<a href="images/fulls/01.jpg" class="image fit"><img src="images/thumbs/01.jpg" title="The Anonymous Red" alt="" /></a>
+								<a href="images/fulls/01.jpg" class="image fit"><img src="images/thumbs/01.jpg" title="LED & Buton Wiring" alt="Image 1"/></a>
 							</article>
 							<article class="from-right">
-								<a href="images/fulls/02.jpg" class="image fit"><img src="images/thumbs/02.jpg" title="Airchitecture II" alt="" /></a>
+								<a href="images/fulls/02.jpg" class="image fit"><img src="images/thumbs/02.jpg" title="LED & Buton Wiring" alt="Image 2"/></a>
 							</article>
 							<article class="from-left">
-								<a href="images/fulls/03.jpg" class="image fit"><img src="images/thumbs/03.jpg" title="Air Lounge" alt="" /></a>
+								<a href="images/fulls/03.jpg" class="image fit"><img src="images/thumbs/03.jpg" title="LED & Buton Wiring" alt="Image 3"/></a>
 							</article>
 							<article class="from-right">
-								<a href="images/fulls/04.jpg" class="image fit"><img src="images/thumbs/04.jpg" title="Carry on" alt="" /></a>
+								<a href="images/fulls/04.jpg" class="image fit"><img src="images/thumbs/04.jpg" title="Joystick Wiring" alt="Image 4"/></a>
 							</article>
 							<article class="from-left">
-								<a href="images/fulls/05.jpg" class="image fit"><img src="images/thumbs/05.jpg" title="The sparkling shell" alt="" /></a>
+								<a href="images/fulls/05.jpg" class="image fit"><img src="images/thumbs/05.jpg" title="Full View" alt="Image 5"/></a>
 							</article>
 							<article class="from-right">
-								<a href="images/fulls/06.jpg" class="image fit"><img src="images/thumbs/06.jpg" title="Bent IX" alt="" /></a>
+								<a href="images/fulls/06.jpg" class="image fit"><img src="images/thumbs/06.jpg" title="Full View" alt="Image 6"/></a>
 							</article>
 						</div>
 
 				</div>
 			</section>
 
-		<!-- Contact -->
-			<section id="contact" class="main style3 secondary">
+		<!-- Future-Development -->
+			<section id="Future-Development" class="main style3 secondary">
 				<div class="content">
 					<header>
-						<h2>Say Hello.</h2>
-						<p>Lorem ipsum dolor sit amet et sapien sed elementum egestas dolore condimentum.</p>
-					</header>
-					<div class="box">
-						<form method="post" action="#">
-							<div class="fields">
-								<div class="field half"><input type="text" name="name" placeholder="Name" /></div>
-								<div class="field half"><input type="email" name="email" placeholder="Email" /></div>
-								<div class="field"><textarea name="message" placeholder="Message" rows="6"></textarea></div>
-							</div>
-							<ul class="actions special">
-								<li><input type="submit" value="Send Message" /></li>
+						<h2>Future Development</h2>
+						<p>In the future I would like to add various amounts of gameplay additions such as:
+							<ul class="left-aligned-list custom-bullets">
+								<li>Crayfish abilities</li>
+									<ul class="left-aligned-list second-custom-bullets">
+										<li>Instead of just a pinching attack it would be cool to explore other abilities such as
+											laser eyes, speed boost, and a biger claw attack.</li>
+									</ul>
+								<li>More enemy types</li>
+									<ul class="left-aligned-list second-custom-bullets">
+										<li>Instead of just the three enemies consisting of worms and fish I would like to add more such as different insects and maybe some enemies that fight back.</li>
+									</ul>
+								<li>Difficulty changes</li>
+									<ul class="left-aligned-list second-custom-bullets">
+										<li>I would also like to add different dificulty settings that the player can choose to give themselves a greater challenge. Theese dificulty settings may be used to increase boss health, damage, and potentially make enemyies spawn more or less.</li>
+									</ul>
+								<li>Extra gameplay mechanics</li>
+									<ul class="left-aligned-list second-custom-bullets">
+										<li>I would also like to explore differen gameplay mechanics such as potentialy letting the monster fish attack the player forcing the player to either dodge or block.
+											I would also like to add enemies that can attack the player as mentioned before.
+										</li>
+									</ul>
 							</ul>
-						</form>
-					</div>
+						</p>
+					</header>
+				<!-- display video-->
+
+					<div class="content">
+						<header>
+							<h2>Video Demonstration</h2>
+						</header>
+				<iframe width="560" height="315"
+					src="https://www.youtube.com/embed/r8WpPzXMtRQ"
+					title="YouTube video player"
+					frameborder="0"
+					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+					allowfullscreen>
+			  </iframe>
 				</div>
 			</section>
+
+		<section id="Important-Links" class="main style3 secondary">
+				<div class="content">
+					<header>
+						<h2>Important Links</h2>
+					</header>
+					<!-- <p>Here are some important links to the project:</p> -->
+					<ul class="left-aligned-list custom-bullets">
+						<li><a href="https://konortrosclair.github.io/KonorTrosDigitalMedia/FinalProject/">GitHub Pages for Project</a></li>
+						<li><a href="https://github.com/KonorTrosclair/KonorTrosDigitalMedia/tree/main/FinalProject">Project Repository Folder</a></li>
+		</section>
 
 		<!-- Footer -->
 			<footer id="footer">
 
 				<!-- Icons -->
-					<ul class="icons">
+					<!-- <ul class="icons">
 						<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
 						<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
 						<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
 						<li><a href="#" class="icon brands fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
 						<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
 						<li><a href="#" class="icon brands fa-pinterest"><span class="label">Pinterest</span></a></li>
-					</ul>
+					</ul> -->
 
 				<!-- Menu -->
-					<ul class="menu">
+					<!-- <ul class="menu">
 						<li>&copy; Untitled</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
-					</ul>
+					</ul> -->
 
 			</footer>
 

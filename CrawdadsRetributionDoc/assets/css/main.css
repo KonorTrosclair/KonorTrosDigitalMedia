@@ -1917,6 +1917,38 @@ input, select, textarea {
 
 		}
 
+		.left-aligned-list {
+			text-align: left;
+			list-style-position: outside; /* or inside, depending on desired look */
+			padding-left: 1.2em; /* adjust if needed */
+		}
+
+		.custom-bullets {
+			list-style: none; /* remove default bullets */
+			padding-left: 0;
+		  }
+		  
+		  .custom-bullets li::before {
+			content: "• "; /* or "-" or any symbol */
+			color: #333;
+			font-weight: bold;
+			margin-right: 0.5em;
+		  }
+
+		  .second-custom-bullets {
+			list-style: none; /* remove default bullets */
+			padding-left: 1;
+		  }
+		  
+		  .second-custom-bullets li::before {
+			content: "\00a0\00a0\00a0\00a0"; /* or "-" or any symbol */
+			color: #333;
+			font-weight: bold;
+			margin-right: 0.5em;
+		  }
+
+		
+
 /* Main */
 
 	.main {
@@ -2244,7 +2276,7 @@ input, select, textarea {
 /* Intro */
 
 	#intro {
-		background: url("images/overlay.png"), url("../../images/intro.jpg");
+		background: url("images/overlay.png"), url("../../images/TitleScreen.jpg");
 		background-size: 256px 256px, cover;
 		background-attachment: fixed, fixed;
 		background-position: top left, bottom center;
@@ -2254,7 +2286,7 @@ input, select, textarea {
 /* One */
 
 	#one {
-		background: url("images/overlay.png"), url("../../images/one.jpg");
+		background: url("images/overlay.png"), url("../../images/gamePlay.jpg");
 		background-size: 256px 256px, cover;
 		background-attachment: fixed, fixed;
 		background-position: top left, center center;
@@ -2263,7 +2295,7 @@ input, select, textarea {
 /* Two */
 
 	#two {
-		background: url("images/overlay.png"), url("../../images/two.jpg");
+		background: url("images/overlay.png"), url("../../images/gameOver.jpg");
 		background-size: 256px 256px, cover;
 		background-attachment: fixed, fixed;
 		background-position: top left, center center;
